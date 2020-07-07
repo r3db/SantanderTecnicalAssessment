@@ -40,9 +40,17 @@ namespace SantanderTecnicalAssessment
             return result;
         }
 
-        public async Task<IEnumerable<Item>> GetBestStoriesOrderedByScore()
+        public async Task<IEnumerable<Story>> GetBestStoriesOrderedByScore()
         {
-            return (await GetBestStories()).OrderBy(x => x.Score).Take(20);
+            return (await GetBestStories()).OrderBy(x => x.Score).Take(20).Select(x => new Story
+            {
+                Title        = x.Title,
+                Uri          = x.Url,
+                PostedBy     = x.By,
+                Time         = x.Time,
+                Score        = x.Score,
+                CommentCount = x.Kids.Count()
+            });
         }
     }
 }

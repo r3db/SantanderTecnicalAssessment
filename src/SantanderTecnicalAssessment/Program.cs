@@ -15,7 +15,7 @@ namespace SantanderTecnicalAssessment
             {
                 foreach (var item in await api.GetBestStoriesOrderedByScore())
                 {
-                    Console.WriteLine(item.By);
+                    Console.WriteLine(item.PostedBy);
                 }
             });
 
@@ -25,7 +25,7 @@ namespace SantanderTecnicalAssessment
             {
                 foreach (var item in await api.GetBestStoriesOrderedByScore())
                 {
-                    Console.WriteLine(item.By);
+                    Console.WriteLine(item.PostedBy);
                 }
             });
 
