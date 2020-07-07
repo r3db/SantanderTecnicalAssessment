@@ -16,11 +16,13 @@ and it's Asp.Net Core equivalent<br><br>
 
 If you're using Visual Studio, just...
 - Open the solution and press `F5`.
+- Navigate to http://localhost:62197/api/v1.0/stories/best
 
 If you prefer to do it like "real men do" you can use the command line ;-)<br>
 Here's how:
 
 - Go to the `SantanderTecnicalAssessment.sln` directory and `dotnet build`.
+- Navigate to http://localhost:62197/api/v1.0/stories/best
 
 ## Notes
 
@@ -31,3 +33,4 @@ This is a very simple application<br>
 - `GetBestStories` makes a "web-call", `GetBestStoriesOrderedByScore` does the "sorting work", always divide and conquer, (it makes it much easier to test).
 - There's a simple cache, (not based on expiration).
 - Unit testing is missing.
+- There's a lot to be done in order this to be a proper WebAPI... Ask me ;-)
