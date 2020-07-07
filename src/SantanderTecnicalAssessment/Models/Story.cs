@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SantanderTecnicalAssessment
+namespace Santander
 {
     public sealed class Story
     {

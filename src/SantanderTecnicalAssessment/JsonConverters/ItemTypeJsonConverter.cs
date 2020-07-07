@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
-namespace SantanderTecnicalAssessment
+namespace Santander
 {
     public class ItemTypeJsonConverter : JsonConverter<ItemType>
     {
-        public override ItemType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override ItemType ReadJson(JsonReader reader, Type objectType, ItemType existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            switch (reader.GetString())
+            switch (reader.Value)
             {
                 case "job":     return ItemType.Job;
                 case "story":   return ItemType.Story;
@@ -19,9 +18,9 @@ namespace SantanderTecnicalAssessment
             }
         }
 
-        public override void Write(Utf8JsonWriter writer, ItemType value, JsonSerializerOptions options)
+        public override void WriteJson(JsonWriter writer, ItemType value, JsonSerializer serializer)
         {
-            throw new NotSupportedException();
+            throw new NotImplementedException();
         }
     }
 }

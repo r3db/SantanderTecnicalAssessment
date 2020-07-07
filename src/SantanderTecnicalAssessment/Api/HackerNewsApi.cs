@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace SantanderTecnicalAssessment
+namespace Santander
 {
-    public sealed class HackerNewsApi
+    public sealed class HackerNewsApi : IHackerNewsApi
     {
         private const string StoriesUri = "https://hacker-news.firebaseio.com/v0/beststories.json";
         private const string ItemUriFormat = "https://hacker-news.firebaseio.com/v0/item/{0}.json";
 
-        private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        //private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         private readonly HttpClient _httpClient = new HttpClient();
         private readonly IDictionary<int, Item> _cachedItems = new Dictionary<int, Item>();
 
@@ -21,16 +22,16 @@ namespace SantanderTecnicalAssessment
         {
             var result = new List<Item>();
             // Note: I could cache this request, but I'm assuming it's contents change quite often, more investigation needed.
-            var storiesTask = _httpClient.GetStreamAsync(StoriesUri);
-            var stories = await JsonSerializer.DeserializeAsync<IList<int>>(await storiesTask, _jsonSerializerOptions);
+            var storiesTask = _httpClient.GetStringAsync(StoriesUri);
+            var stories = JsonConvert.DeserializeObject<IList<int>>(await storiesTask);
 
             foreach (var identifier in stories)
             {
                 if (_cachedItems.ContainsKey(identifier) == false)
                 {
-                    var itemTask = _httpClient.GetStreamAsync(string.Format(ItemUriFormat, identifier));
+                    var itemTask = _httpClient.GetStringAsync(string.Format(ItemUriFormat, identifier));
                     // Note: I'm assuming we always receive something.
-                    var item = await JsonSerializer.DeserializeAsync<Item>(await itemTask, _jsonSerializerOptions);
+                    var item = JsonConvert.DeserializeObject<Item>(await itemTask);
                     _cachedItems.Add(identifier, item);
                 }
 
